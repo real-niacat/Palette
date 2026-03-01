@@ -150,6 +150,7 @@ function Palette.generate_colours()
                         outline_colour = G.C.WHITE,
                         outline = 0.5,
                         palette_tooltip = gen_tooltip(col),
+                        copy_path = (col.origin .. "." .. col.key),
                     },
                 })
             end
@@ -178,6 +179,10 @@ function UIElement.set_values(self, t, recalculate)
     set_values_hook(self, t, recalculate)
     if self.config.palette_tooltip then
         self.states.collide.can = true
+    end
+
+    if self.config.copy_path then
+        self.states.click.can = true
     end
 end
 
@@ -247,6 +252,15 @@ function love.wheelmoved(x, y)
         Palette.toggle_ui()
         Palette.toggle_ui()
     end
+end
+
+local uielement_click_hook = UIElement.click
+function UIElement.click(self)
+    if self.config.copy_path then
+        love.system.setClipboardText(self.config.copy_path)
+        self:juice_up()
+    end
+    uielement_click_hook(self)
 end
 
 SMODS.Atlas {
