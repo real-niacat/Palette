@@ -1,0 +1,16 @@
+{
+	"id": "palette",
+	"name": "Palette",
+	"display_name": "Palette",
+	"author": ["Lily Felli", "Tomatose"],
+	"description": "Adds colour searching functionalities, to help with mod development",
+	"prefix": "pal",
+	"main_file": "main.lua",
+	"priority": 9,
+	"badge_colour": "FFFFFF",
+	"badge_text_colour": "FFFFFF",
+	"version": "1.0.0",
+	"dependencies": [
+		"Steamodded"
+	]
+}
