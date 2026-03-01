@@ -86,21 +86,22 @@ end
 
 function Palette.generate_colours()
     Palette.colours = {}
-    local function add_colours(t, name)
+    local function add_colours(t, name, gradients)
         for key, val in pairs(t) do
             if type(val) == "table" and (type(val[1]) ~= "number") then
                 -- print(name, key, "is a table containing more colours?, recursing...")
-                add_colours(val, name .. "." .. key)
+                add_colours(val, name .. "." .. key, gradients)
             else
                 -- print(name, key, "is a colour, adding...")
-                if type(val) ~= "number" then
+                local is_gradient = (getmetatable(val) ~= SMODS.Gradient)
+                if type(val) == "table" and (not gradients and is_gradient or gradients) then
                     table.insert(Palette.colours, { key = tostring(key), colour = val, origin = name })
                 end
             end
         end
     end
     add_colours(G.C, "G.C")
-    add_colours(SMODS.Gradients, "SMODS.Gradients")
+    add_colours(SMODS.Gradients, "SMODS.Gradients", true)
     table.sort(Palette.colours, function(a, b)
         return a.key < b.key
     end)
