@@ -3,7 +3,7 @@
 	"name": "Palette",
 	"display_name": "Palette",
 	"author": ["Lily Felli", "Deadbeet/Tomatose"],
-	"description": "Adds colour searching functionalities, to help with mod development",
+	"description": "Adds colour searching functionalities, to help with mod development. Press P to open UI, click on a colour to copy it's path",
 	"prefix": "pal",
 	"main_file": "main.lua",
 	"priority": 9,
