@@ -2,7 +2,7 @@
 	"id": "palette",
 	"name": "Palette",
 	"display_name": "Palette",
-	"author": ["Lily Felli", "Tomatose"],
+	"author": ["Lily Felli", "Deadbeet/Tomatose"],
 	"description": "Adds colour searching functionalities, to help with mod development",
 	"prefix": "pal",
 	"main_file": "main.lua",
