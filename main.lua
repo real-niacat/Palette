@@ -102,6 +102,7 @@ function Palette.generate_colours()
     end
     add_colours(G.C, "G.C")
     add_colours(SMODS.Gradients, "SMODS.Gradients", true)
+    add_colours(G.ARGS.LOC_COLOURS, "G.ARGS.LOC_COLOURS")
     table.sort(Palette.colours, function(a, b)
         return a.key < b.key
     end)
