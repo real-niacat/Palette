@@ -1,13 +1,14 @@
----@type Mod
-Palette = SMODS.current_mod
+Palette = {}
 
 -- mod heavily inspired by TMJ by cg223
--- mod code too was inspired
 
+function Palette.pixels_to_unit(value)
+    return value / (G.TILESCALE * G.TILESIZE)
+end
 
 Palette.screen_size = {
-    x = SMODS.pixels_to_unit(love.graphics.getWidth()),
-    y = SMODS.pixels_to_unit(love.graphics.getHeight()),
+    x = Palette.pixels_to_unit(love.graphics.getWidth()),
+    y = Palette.pixels_to_unit(love.graphics.getHeight()),
 }
 
 Palette.scroll_progress = 1
@@ -18,13 +19,13 @@ function Palette.print(...)
     end
 end
 
-SMODS.Keybind {
-    key = "palette_toggle_ui",
-    key_pressed = "p",
-    action = function(self)
+local palette_kp = love.keypressed
+function love.keypressed(key, ...)
+    palette_kp(key, ...)
+    if key == "p" then
         Palette.toggle_ui()
     end
-}
+end
 
 function Palette.toggle_ui()
     if G.palettes then
@@ -39,8 +40,8 @@ local love_resize_hook = love.resize
 function love.resize(w, h)
     love_resize_hook(w, h)
     Palette.screen_size = {
-        x = SMODS.pixels_to_unit(w),
-        y = SMODS.pixels_to_unit(h),
+        x = Palette.pixels_to_unit(w),
+        y = Palette.pixels_to_unit(h),
     }
 end
 
@@ -63,7 +64,7 @@ function Palette.inner_UIBox()
                     nodes = {
                         {
                             n = G.UIT.T,
-                            config = { text = "Colours", scale = 0.6, shadow = true },
+                            config = { text = localize("k_palette_colours"), scale = 0.6, shadow = true },
                         },
                     },
                 },
@@ -101,8 +102,10 @@ function Palette.generate_colours()
         end
     end
     add_colours(G.C, "G.C")
-    add_colours(SMODS.Gradients, "SMODS.Gradients", true)
     add_colours(G.ARGS.LOC_COLOURS, "G.ARGS.LOC_COLOURS")
+    if SMODS then
+        add_colours(SMODS.Gradients, "SMODS.Gradients", true)
+    end
     table.sort(Palette.colours, function(a, b)
         return a.key < b.key
     end)
@@ -129,7 +132,7 @@ function Palette.generate_colours()
             title = col.key,
             text = {
                 "RGBA: " .. rgba_string(col.colour),
-                "Path: " .. col.origin .. "." .. col.key
+                localize("k_palette_path_col") .. col.origin .. "." .. col.key
             }
         }
     end
@@ -177,9 +180,9 @@ function Palette.generate_colours()
     return t
 end
 
-local set_values_hook = UIElement.set_values
+local palette_sv = UIElement.set_values
 function UIElement.set_values(self, t, recalculate)
-    set_values_hook(self, t, recalculate)
+    palette_sv(self, t, recalculate)
     if self.config.palette_tooltip then
         self.states.collide.can = true
     end
@@ -189,13 +192,13 @@ function UIElement.set_values(self, t, recalculate)
     end
 end
 
-local hover_hook = UIElement.hover
+local palette_hover = UIElement.hover
 function UIElement.hover(self)
-    if self.config.palette_tooltip then
+    if self.config.palette_tooltip and SMODS then
         self.config.h_popup = Palette.generate_tooltip(self.config.palette_tooltip)
         self.config.h_popup_config = { align = "tm", offset = { x = 0, y = -0.1 }, parent = self }
     end
-    hover_hook(self)
+    palette_hover(self)
 end
 
 function Palette.generate_tooltip(tooltip)
@@ -265,10 +268,3 @@ function UIElement.click(self)
     end
     uielement_click_hook(self)
 end
-
-SMODS.Atlas {
-    key = "modicon",
-    path = "palettetag.png",
-    px = 34,
-    py = 34,
-}
