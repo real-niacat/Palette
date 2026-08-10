@@ -1,0 +1,22 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["palette.lua"]
+
+[[patches]]
+[patches.module]
+source = "localization/en-us.lua"
+before = "main.lua"
+name = "palette/localization/en-us"
+
+[[patches]]
+[patches.module]
+source = "utils.lua"
+before = "main.lua"
+name = "palette/utils"
