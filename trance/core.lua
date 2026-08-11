@@ -59,8 +59,11 @@ function Palette.load_palettes()
     end
 end
 
-function Palette.get_localization(key)
-
+function Palette.get_palette_loc(key)
+    if Palette.ColourPalettes.loc_txt then
+        return Palette.ColourPalettes.loc_txt
+    end
+    return G.localization.descriptions.ColorPalette[key]
 end
 
 function Palette.post_load()
@@ -86,10 +89,11 @@ function Palette.load_colour_table(c, t, d)
     end
 end
 
-function Palette.load_pallete(key)
+function Palette.load_palette(key)
     Palette.loaded_colours = {}
     Palette.load_colour_table(Palette.ColourPalettes.pal_base_game.colours)
     Palette.load_colour_table(Palette.ColourPalettes[key].colours)
+    Palette.active_palette = Palette.ColourPalettes[key]
     Palette.set_globals()
 end
 
@@ -110,8 +114,24 @@ function Palette.set_globals()
     Palette.set_colors()
     if Palette.loaded_colours.MULT then ease_colour(G.C.UI_MULT,Palette.loaded_colours.MULT) end
     if Palette.loaded_colours.CHIPS then ease_colour(G.C.UI_CHIPS,Palette.loaded_colours.CHIPS) end
+    if Palette.active_palette.colours.SPLASH then
+        G.C.SPLASH = copy_table(Palette.active_palette.colours.SPLASH)
+    else
+        G.C.SPLASH = {Palette.active_palette.colours.RED or Palette.active_palette.colours.MULT or Palette.loaded_colours.RED, Palette.active_palette.colours.BLUE or Palette.active_palette.colours.CHIPS or Palette.loaded_colours.RED}
+    end
+    if G.SPLASH_BACK then
+        G.SPLASH_BACK:define_draw_steps({{
+            shader = 'splash',
+            send = {
+                {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+                {name = 'vort_speed', val = 0.4},
+                {name = 'colour_1', ref_table = G.C.SPLASH, ref_value = 1},
+                {name = 'colour_2', ref_table = G.C.SPLASH, ref_value = 2},
+            }
+        }})
+    end
     if G.P_BLINDS then
-        for k, v in pairs(Palette.loaded_colours.BOSSES) do
+        for k, v in pairs(Palette.loaded_colours.BOSSES or {}) do
             if G.P_BLINDS[k] and G.P_BLINDS[k].boss_colour then G.P_BLINDS[k].boss_colour = v end
         end
     end

@@ -30,7 +30,8 @@ return {
         collabs = {},
         dictionary = {
             k_palette_colours = "Colours",
-            k_palette_path_col = "Path: "
+            k_palette_path_col = "Path: ",
+            palette_enabled = "ENABLED"
         },
         high_scores = {},
         labels = {},

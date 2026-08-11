@@ -26,3 +26,8 @@ name = "palette/utils"
 source = "trance/core.lua"
 before = "main.lua"
 name = "palette/trance/core"
+[[patches]]
+[patches.module]
+source = "trance/ui.lua"
+before = "main.lua"
+name = "palette/trance/ui"

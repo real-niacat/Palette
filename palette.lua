@@ -1,6 +1,6 @@
 Palette = {
     loaded_colours = {},
-    config = {}
+    config = {active_palette = "pal_base_game"}
 }
 -- mod heavily inspired by TMJ by cg223
 
@@ -60,13 +60,16 @@ function UIElement.set_values(self, t, recalculate)
     if self.config.copy_path then
         self.states.click.can = true
     end
+    if self.config.palette_callback then
+        self.states.click.can = true
+    end
 end
 
 local palette_hover = UIElement.hover
 function UIElement.hover(self)
     if self.config.palette_tooltip then
         self.config.h_popup = Palette.generate_tooltip(self.config.palette_tooltip)
-        self.config.h_popup_config = { align = "tm", offset = { x = 0, y = -0.1 }, parent = self }
+        self.config.h_popup_config = { align = self.config.palette_tooltip.align or "tm", offset = { x = 0, y = -0.1 }, parent = self }
     end
     palette_hover(self)
 end
@@ -87,12 +90,17 @@ function UIElement.click(self)
         love.system.setClipboardText(self.config.copy_path)
         self:juice_up()
     end
+    if self.config.palette_callback then
+        self:juice_up()
+        self.config:palette_callback(self)
+    end
     uielement_click_hook(self)
 end
 
 for i, v in pairs( {
     "palette/utils",
-    "palette/trance/core"
+    "palette/trance/core",
+    "palette/trance/ui"
 }) do
     require(v)
 end
