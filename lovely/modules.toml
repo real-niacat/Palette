@@ -20,3 +20,9 @@ name = "palette/localization/en-us"
 source = "utils.lua"
 before = "main.lua"
 name = "palette/utils"
+
+[[patches]]
+[patches.module]
+source = "trance/core.lua"
+before = "main.lua"
+name = "palette/trance/core"

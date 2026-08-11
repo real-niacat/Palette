@@ -13,6 +13,14 @@ return {
         Tag = {},
         Tarot = {},
         Voucher = {},
+        ColorPalette = {
+            pal_base_game = {
+                name = "Default",
+                text = {
+                    "Base game colours"
+                }
+            }
+        }
     },
     misc = {
         achievement_descriptions = {},
