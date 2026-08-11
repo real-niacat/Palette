@@ -45,7 +45,7 @@ function Palette.load_palettes()
         local res = Palette.load_file(Palette.path .. "colours/"..v.name)
         if res then
             res = {
-                key = (string.lower(v.name):gsub(" ", "_"))
+                key = (string.lower(v.name):gsub(" ", "_")),
                 colours = res,
                 loc_txt = {
                     name = v.name:gsub(".lua", ""),
@@ -57,6 +57,10 @@ function Palette.load_palettes()
             Palette.ColourPalette(res)
         end
     end
+end
+
+function Palette.get_localization(key)
+
 end
 
 function Palette.post_load()
