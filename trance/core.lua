@@ -40,10 +40,20 @@ function Palette.load_file_with_fallback(primary_path, fallback_path, reset_conf
 end
 
 function Palette.load_palettes()
-    local info = Palette.nativefs.getDirectoryItemsInfo(Palette.path .. "colors")
+    local info = Palette.nativefs.getDirectoryItemsInfo(Palette.path .. "colours")
     for i, v in pairs(info) do
-        local res = Palette.load_file(Palette.path .. "colors/"..v.name)
+        local res = Palette.load_file(Palette.path .. "colours/"..v.name)
         if res then
+            res = {
+                key = (string.lower(v.name):gsub(" ", "_"))
+                colours = res,
+                loc_txt = {
+                    name = v.name:gsub(".lua", ""),
+                    text = {
+                        "???"
+                    }
+                }
+            }
             Palette.ColourPalette(res)
         end
     end
