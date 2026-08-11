@@ -41,32 +41,31 @@ function _G.create_UIBox_colours_selection()
 		            local s_scale = scale/0.2
                     local mult = col.colours.MULT or col.colours.UI_MULT or col.colours.RED
                     local chips= col.colours.CHIPS or col.colours.UI_CHIPS or col.colours.BLUE
-                    return {n=G.UIT.R, config={align = "m", r = 0.05, padding = 0.05}, nodes={
-						{n=G.UIT.C, config={align = "m", r = 0.05, padding = 0.05, colour = col.colours.BLACK or Palette.ColourPalettes.pal_base_game.colours.BLACK, }, nodes={
-							{n=G.UIT.C, config={align = "m", r = 0.05, padding = 0.05}, nodes={
-								{n=G.UIT.R, config={align = "cr", maxh = 0}, nodes={
-									{n=G.UIT.C, config={align = "cr", minw = 1*s_scale, minh = 0.5*s_scale, r = 0.1, colour = chips, emboss = 0.05}, nodes={
-										{n=G.UIT.O, config={text = "chips_text", type = type, scale =scale*2.3, object = DynaText({
-											string = {{ref_table = {chips = 20}, ref_value = "chips"}},
-											colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, shadow = true, float = true, scale = scale*2.3
-										})}},
-										{n=G.UIT.B, config={w = 0.1, h = 0.1}},
-									}},
-								}}
-							}},
-							get_operator_node(0.2, mult),
-							{n=G.UIT.C, config={align = "m", colour = col.colours.BLACK or Palette.ColourPalettes.pal_base_game.colours.BLACK, r = 0.05, padding = 0.05}, nodes={
-								{n=G.UIT.R, config={align = "cr", maxh = 0}, nodes={
-									{n=G.UIT.C, config={align = "cl", minw = 1*s_scale, minh = 0.5*s_scale, r = 0.1, colour = mult, emboss = 0.05}, nodes={
-										{n=G.UIT.B, config={w = 0.1, h = 0.1}},
-										{n=G.UIT.O, config={text = "mult_text", type = type, scale = scale*2.3, object = DynaText({
-											string = {{ref_table = {mult = 20}, ref_value = "mult"}},
-											colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, shadow = true, float = true, scale = scale*2.3
-										})}},
-									}},
-								}}
-							}},
-						}},
+                    local badge = col:add_badge()
+                    local black = col.colours.BLACK or Palette.ColourPalettes.pal_base_game.colours.BLACK
+                    return {n=G.UIT.R, config={align = "m", padding = 0.05}, nodes={
+                        {n=G.UIT.C, config={align = "cm", padding = 0.05}, nodes={
+                            {n=G.UIT.R, config={align = "cm", padding = 0.05, colour = black, r = 0.05, minw = 2*s_scale, minh = 0.75*s_scale}, nodes={
+                                {n=G.UIT.C, config={align = "cr", padding = 0.05, colour = chips,r = 0.05, minw = 1*s_scale, minh = 0.5*s_scale}, nodes={
+                                    {n=G.UIT.O, config={align = "cr", text = "chips_text", type = type, scale =scale*2.3, object = DynaText({
+                                        string = {{ref_table = {chips = 20}, ref_value = "chips"}},
+                                        colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, shadow = true, float = true, scale = scale*2.3
+                                    })}},
+                                    {n=G.UIT.B, config={w = 0.1, h = 0.1}},
+                                }},
+                                get_operator_node(0.2, mult),
+                                {n=G.UIT.C, config={align = "cr", padding = 0.05, colour = mult, r = 0.05, minw = 1*s_scale, minh = 0.5*s_scale}, nodes={
+                                    {n=G.UIT.O, config={text = "mult_text", type = type, scale =scale*2.3, object = DynaText({
+                                        string = {{ref_table = {chips = 20}, ref_value = "chips"}},
+                                        colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, shadow = true, float = true, scale = scale*2.3
+                                    })}},
+                                    {n=G.UIT.B, config={w = 0.1, h = 0.1}},
+                                }}
+                            }},
+                            {n=G.UIT.R, config={align = "cm", minh = 0.025*s_scale}, nodes={
+                            }},
+                            badge,
+                        }}
                     }}
                 end
             }

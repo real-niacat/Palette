@@ -17,7 +17,10 @@ Palette.ColourPalette = function(args)
         for i, v in pairs(required_params) do
             assert(not (args[v] == nil), ('Missing required parameter for %s declaration: %s'):format("ColourPalette", v))
         end
-
+        args.add_badge = function(self)
+            if not SMODS or self.mod.prefix == "pal" or SMODS.config.no_mod_badges then return end
+            return SMODS.create_mod_badge(self.mod, self)
+        end
         Palette.ColourPalettes[args.key] = args
     end
 end

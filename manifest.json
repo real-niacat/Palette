@@ -7,7 +7,7 @@
 	"prefix": "pal",
 	"main_file": "main.lua",
 	"priority": 9,
-	"badge_colour": "FFFFFF",
+	"badge_colour": "000000",
 	"badge_text_colour": "FFFFFF",
 	"version": "1.1.0",
 	"dependencies": [

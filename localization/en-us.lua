@@ -20,10 +20,11 @@ return {
                     "Base game colours"
                 }
             },
-            pal_caucasian = {
-                name = "IM SO FUCKING WHITE",
+            pal_trans = {
+                name = "Trans",
                 text = {
-                    "Makes everything white"
+                    "Colours based on",
+                    "the Transgender Flag"
                 }
             }
         }
