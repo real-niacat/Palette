@@ -1,5 +1,6 @@
 Palette.ColourPalettes = {}
 Palette.ColourPalette = function(args)
+    Palette.ColourPalettesOrder = Palette.ColourPalettesOrder or 0
     --TODO: other stuff
 
     local required_params = {
@@ -8,6 +9,8 @@ Palette.ColourPalette = function(args)
     args.mod = SMODS and SMODS.current_mod or Palette.mod or {prefix = "pal"}
     args.key = args.mod.prefix.."_"..args.key
     if not Palette.ColourPalettes[args.key] then
+        args.order = args.key == "pal_base_game" and -9999 or Palette.ColourPalettesOrder
+        Palette.ColourPalettesOrder = Palette.ColourPalettesOrder + 1
         args.colours = args.colors or args.colours
         args.main_colour = args.main_colour or args.colours.MULT
         args.set = "ColourPalette"

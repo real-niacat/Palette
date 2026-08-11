@@ -19,6 +19,12 @@ return {
                 text = {
                     "Base game colours"
                 }
+            },
+            pal_caucasian = {
+                name = "IM SO FUCKING WHITE",
+                text = {
+                    "Makes everything white"
+                }
             }
         }
     },

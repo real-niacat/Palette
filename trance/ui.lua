@@ -73,7 +73,14 @@ function _G.create_UIBox_colours_selection()
         }
     end
     local colors = {}
+    local p = {}
     for i, v in pairs(Palette.ColourPalettes) do
+        p[#p+1] = v
+    end
+    table.sort(p, function(a, b)
+        return a.order < b.order
+    end)
+    for i, v in pairs(p) do
         if v.key ~= Palette.active_palette.key then
             colors[#colors] = colors[#colors] or {n=G.UIT.R, config = {align = 'lm', padding = 0.1}, nodes ={}}
             local row = colors[#colors]
