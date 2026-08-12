@@ -1,4 +1,4 @@
-function _G.create_UIBox_colours_selection()
+function _G.create_UIBox_colours_selection(minw)
     -- Malverk:update_atlas()
     -- Malverk.texture_pack_priority_area = CardArea(G.ROOM.T.w, G.ROOM.T.h, 11, G.CARD_H, 
     -- {type = 'joker', highlight_limit = 1, deck_height = 0.75, thin_draw = 1, texture_priority = true})
@@ -106,52 +106,81 @@ function _G.create_UIBox_colours_selection()
                         palette_callback = function()
                             Palette.load_palette(col.key)
                             G.FUNCS.exit_overlay_menu()
-                            G.FUNCS.overlay_menu {
-                                definition = create_UIBox_colours_selection()
-                            }
+                            if SMODS then
+                                G.FUNCS.openModUI_palette()
+                            else
+                                G.FUNCS.palette_open_config()
+                            end
+                            Palette.save_config()
                         end
                     },
                 }
             }}
         end
     end
-    local t = create_UIBox_generic_options({ back_func = 'options', contents = {
-        {n=G.UIT.R, config = {colour = G.C.CLEAR, align = 'cm', minw = 12, minh = 10}, nodes = {
-            {n=G.UIT.C, config={align = "cm", padding = 0.15, r = 0.1, minw = 12}, nodes={
-                {n=G.UIT.R, config = {colour = G.C.BLACK, r = 0.1, minh = 2.5, minw = 12, align = 'cm'}, nodes = {
-                    {n=G.UIT.C, config = {align = 'cm', padding = 0.1, minw = 0.5}, nodes = {{n=G.UIT.T, config = {text = localize('palette_enabled'), scale = 0.5, vert = true, colour = G.C.L_BLACK}}}},
-                    {n=G.UIT.C, config = {align = 'cm', minw = 11}, nodes = {
-                         {
-                            n = G.UIT.B,
-                            config = {
-                                colour = col.main_colour,
-                                colour_key = col.key,
-                                w = default_size / per_row,
-                                h = default_size / per_row,
-                                r = 0.01,
-                                refresh_movement = true,
-                                padding = pad,
-                                shadow = true,
-                                outline_colour = G.C.WHITE,
-                                outline = 0.5,
-                                palette_tooltip = gen_tooltip(col, "bm"),
-                                palette_callback = function()
-                                    if col.key ~= "pal_base_game" then
-                                        Palette.load_palette("pal_base_game")
-                                        G.FUNCS.exit_overlay_menu()
-                                        G.FUNCS.overlay_menu {
-                                            definition = create_UIBox_colours_selection()
-                                        }
-                                    end
+    local t = {n=G.UIT.R, config={align = "cm", padding = 0.15, r = 0.1}, nodes={
+        {n=G.UIT.R, config = {colour = G.C.BLACK, r = 0.1, minh = 2.5, align = 'cm'}, nodes = {
+            {n=G.UIT.C, config = {align = 'cm', padding = 0.1, minw = 0.5}, nodes = {{n=G.UIT.T, config = {text = localize('palette_enabled'), scale = 0.5, vert = true, colour = G.C.L_BLACK}}}},
+            {n=G.UIT.C, config = {align = 'cm', minw = 11}, nodes = {
+                    {
+                    n = G.UIT.B,
+                    config = {
+                        colour = col.main_colour,
+                        colour_key = col.key,
+                        w = default_size / per_row,
+                        h = default_size / per_row,
+                        r = 0.01,
+                        refresh_movement = true,
+                        padding = pad,
+                        shadow = true,
+                        outline_colour = G.C.WHITE,
+                        outline = 0.5,
+                        palette_tooltip = gen_tooltip(col, "bm"),
+                        palette_callback = function()
+                            if col.key ~= "pal_base_game" then
+                                Palette.load_palette("pal_base_game")
+                                G.FUNCS.exit_overlay_menu()
+                                if SMODS then
+                                    G.FUNCS.openModUI_palette()
+                                else
+                                    G.FUNCS.palette_open_config()
                                 end
-                            },
-                        }
-                    }},
-                }},
-                {n=G.UIT.R, config = {colour = G.C.BLACK, r = 0.1, minh = 7.5, minw = 12, align = 'tm'}, nodes = colors},
+                                Palette.save_config()
+                            end
+                        end
+                    },
+                }
             }},
-        }}
-    }})
+        }},
+        {n=G.UIT.R, config = {colour = G.C.BLACK, r = 0.1, minh = minw or 7.5, minw = 12, align = 'tm'}, nodes = colors},
+    }}
     return t
 
+end
+
+Palette.config_tab = function(minw)
+    return create_UIBox_colours_selection(minw)
+end
+
+function G.FUNCS.palette_open_config(e)
+    G.SETTINGS.paused = true
+    Palette.config_opened = true
+    G.FUNCS.overlay_menu({
+        definition = create_UIBox_generic_options({ back_func = 'options', contents = { Palette.config_tab() }}),
+    })
+end
+function G.FUNCS.Palette_close_config(e)
+    Palette.config_opened = nil
+    if e then
+        return G.FUNCS.options(e)
+    end
+end
+if not SMODS then
+    local create_uibox_options_ref = create_UIBox_options
+    function create_UIBox_options()
+        local contents = create_uibox_options_ref()
+        table.insert(contents.nodes[1].nodes[1].nodes[1].nodes, 
+        UIBox_button({ label = { "Palette" }, button = "palette_open_config", minw = 5, colour = G.C.BLUE }))
+        return contents
+    end
 end

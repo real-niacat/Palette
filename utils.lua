@@ -390,3 +390,8 @@ end
 function Palette.pixels_to_unit(value)
     return value / (G.TILESCALE * G.TILESIZE)
 end
+
+function Palette.save_config() 
+    local serialized = "return { active_palette = \""..Palette.active_palette.key.."\"}"
+    love.filesystem.write("config/Palette.lua", serialized)
+end

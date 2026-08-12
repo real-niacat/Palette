@@ -51,10 +51,10 @@ function Palette.load_palettes()
         local res = Palette.load_file(Palette.path .. "colours/"..v.name)
         if res then
             res = {
-                key = (string.lower(v.name):gsub(" ", "_")),
+                key = (string.lower(v.name):gsub(" ", "_")):gsub("%.lua", ""),
                 colours = res,
                 loc_txt = {
-                    name = v.name:gsub(".lua", ""),
+                    name = v.name:gsub("%.lua", ""),
                     text = {
                         "???"
                     }

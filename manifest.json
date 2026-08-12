@@ -12,5 +12,6 @@
 	"version": "1.1.0",
 	"dependencies": [
 		
-	]
+	],
+	"icon_path": "palettetag.png"
 }
