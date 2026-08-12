@@ -17,7 +17,7 @@ Palette.mod.config_tab = function()
 			r = 0.1,
 			align = "cm",
 			padding = 0.2,
-            colour = G.C.UI.BACKGROUND_DARK
+            colour = {0,0,0,0}
 		},
 		nodes = pal_nodes,
 	}
