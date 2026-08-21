@@ -127,17 +127,3 @@ Palette.load_config()
 if not SMODS then
     Palette.load_palettes()
 end
-
-local hover_ref = Card.hover
-function Card:hover(...)
-    hover_ref(self, ...)
-    if self.area == G.hand and love.mouse.isDown(1) then
-        if self.highlighted then
-            self.area:remove_from_highlighted(self)
-            self:highlight()
-        elseif #G.hand.highlighted < G.hand.config.highlighted_limit then
-            self.area:add_to_highlighted(self)
-            self:highlight(true)
-        end
-    end
-end
