@@ -36,8 +36,10 @@ function love.keypressed(key, ...)
         return
     end
     palette_kp(key, ...)
-    if key == "p" then
-        Palette.toggle_ui()
+    if not G.CONTROLLER.text_input_hook then
+        if key == "p" then
+            Palette.toggle_ui()
+        end
     end
 end
 
