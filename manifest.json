@@ -1,7 +1,7 @@
 {
 	"name": "Palette",
 	"description": "Adds colour searching functionalities, to help with mod development. Press P to open UI, click on a colour to copy it's path",
-	"version": "1.1.0",
+	"version_number": "1.1.0",
 	"dependencies": [],
 	"website_url": "https://github.com/real-niacat/Palette"
 }
